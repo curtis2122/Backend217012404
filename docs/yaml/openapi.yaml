@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Back End Demonstration API
+  description: A simple Dog API
+  contact:
+    name: curtis
+    email: 217012404@stu.vtc.edu.hk
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'https://COMBlog28032022.curtiswang1.repl.co/'
+    description: Development Server
+tags: //分類用
+  - name: Users
+    description: API endpoints for user management
+  - name: Dogs
+    description: Access and perform CRUD operations on dog entries
+paths:
+  /dogs/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:  
+          type: integer
+        required: true
+        description: Numeric id of the dog
+    get:
+      tags:
+        - Dogs
+      description:
+        Get dog by id.
+      responses:
+        '200':
+          description: View of an dog record
+        '404':
+          descirption: Dog was not found in the DB
+    put:
+      tags:
+        - Dogs
+      description:
+        Update dog by id.
+      responses:
+        '200':
+          description: View of an dog record
+        '404':
+          descirption: Dog was not found in the DB
+    delete:
+      tags:
+        - Dogs
+      description:
+        Delete article by id.
+      responses:
+        '200':
+          description: View of an article record
+        '404':
+          descirption: Dog was not found in the DB
+    post:
+      tags:
+        - Articles
+      description:
+        create a new article
+      requestBody:
+        description: A new article data
+        required: true //boday 一定要
+        content:
+          application/json:
+            schema:
+              $ref: ./dogs.json#/definitions/dog
+      responses:
+        '201':
+          description: Create a new dog successfully
