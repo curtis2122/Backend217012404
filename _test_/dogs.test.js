@@ -2,6 +2,20 @@ const request = require('supertest')
 //const app = require('./common/index')
 const app = require('./app.test')
 
+
+let token;
+
+getauth((setauth) => {
+  const req = request(app.callback())
+    .post('/api/v1/users/login')
+    .auth('candy45', 'test1234')
+    .end((err, req) => {
+      token = req.body.token; 
+      console.log('the auth token is ', token);
+      setauth();
+    });
+});
+
 const expected = {
        "id": 3,
         "title": null,
@@ -45,3 +59,49 @@ describe('Dogs Testing Cases', () => {
     expect(res.body).toContainEqual(expected)
 })
 })
+
+
+describe('Post new dog Test Case', () => {
+  it('should be create a new dog', async () => {
+    const res = await request(app.callback())
+      .post('/api/v1/dogs')
+      .send({
+        name: 'dogs12',
+        age: '12', 
+        sex: 'M',
+        shelterid: '1',
+        staffid: '1'
+      })
+    expect(res.statusCode).toEqual(201)
+    expect(res.type).toEqual("application/json")
+    expect(res.body).toHaveProperty('created',true)
+  })
+});
+
+
+
+
+describe('try the PUT method of Dogs', () => {
+  it('Update a dog info ', async () => {
+    const req = await request(app.callback())
+      .put(`/api/v1/dogs/${dogID}`)
+      .send({
+        name: 'changeDogName',
+        sex: 'M',
+      })
+      .set('Authorization', token);
+    expect(req.statusCode).toEqual(201);
+    expect(req.body).toHaveProperty('updated', true);
+  });
+});
+
+
+describe('try the DELETE method of Dogs', () => {
+  it('Testing to delete a dog', async () => {
+    const req = await request(app.callback())
+      .delete(`/api/v1/dogs/${dogID}`)
+      .set('Authorization', token);
+    expect(req.statusCode).toEqual(200);
+    expect(req.body).toHaveProperty('deleted', true);
+  });
+});

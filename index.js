@@ -22,9 +22,14 @@ const options  =  {
   origins: '*'
 }
 
+const passport = require('koa-passport')
+const basicAuth = require('./strategies/basic')
+passport.use(basicAuth)
+
 const specials = require('./routes/special')   
 const dogs = require('./routes/dogs')
 const users = require('./routes/users')
+
 
 //app.use(cors(['*'])) 表示所有可以用
 //https call http 必block

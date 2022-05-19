@@ -31,6 +31,7 @@ exports.run_query = async function run_query(query, values) {
   }
 }
 
+// run an SQL query for insert 
 exports.run_insert = async function run_insert(sql, values) {
   try{
   //  const sequelize = new Sequelize(`postgres://${info.config.user}:${info.config.password}@${info.config.host}/${info.config.database}`)
@@ -50,7 +51,7 @@ exports.run_insert = async function run_insert(sql, values) {
   }
 }
 
-
+// run an SQL query for update 
 exports.run_update = async function run_update(sql, values) {
   try {
     const sequelize = new Sequelize(`postgres://${info.config.user}:${info.config.password}@${info.config.host}:${info.config.port}/${info.config.database}`)
@@ -70,7 +71,7 @@ exports.run_update = async function run_update(sql, values) {
   }
 }
 
-
+// run an SQL query for delete 
 exports.run_delete = async function run_delete(sql, values) {
   try{
   //  const sequelize = new Sequelize(`postgres://${info.config.user}:${info.config.password}@${info.config.host}/${info.config.database}`)

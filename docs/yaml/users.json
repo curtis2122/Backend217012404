@@ -1,0 +1,52 @@
+{
+  "$schema":"http://json-schema.org/draft-04/schema#",
+  "definitions": {  
+    "user": {
+    "id": "/user",
+      "title": "User",
+      "description": "Registered a user of the website",
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "description": "First name",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Last name",
+          "type": "string"
+        },
+        "username": {
+          "description": "Unique username",
+          "type": "string"
+        },
+        "about": {
+          "description": "Description of the user",
+          "type": "string"
+        },
+        "password": {
+          "description": "Password for registration",
+          "type": "string"
+        },
+        "email": {
+          "description": "Unique email address",
+          "type": "string",
+          "format": "email"
+        },
+        "avatarURL": {
+          "description": "URL of avatar image",
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "username",
+        "email",
+        "password",
+        "firstName",
+        "lastName"
+      ],
+      "additionalProperties": false
+    }
+ 
+  }
+}

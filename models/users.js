@@ -100,11 +100,12 @@ exports.add = async function add(user) {
   }
 }
 
-
-//find and check users employee code
+/*
+//find and check users employee code 
+//do it at frontend
 exports.findEmpSepCode = async function findEmpSepCode(empCode) {
   const query = "SELECT name FROM roles WHERE empcode = ?;";
   const data = await db.run_query(query, [empCode]);
   return data;
 
-}
+}*/

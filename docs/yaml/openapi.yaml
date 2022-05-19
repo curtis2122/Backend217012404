@@ -1,8 +1,8 @@
-openapi: 3.0.0
+03openapi: 3.0.0
 info:
   version: 1.0.0
   title: Back End Demonstration API
-  description: A simple Dog API
+  description: Canine Dog Shelter API
   contact:
     name: curtis
     email: 217012404@stu.vtc.edu.hk

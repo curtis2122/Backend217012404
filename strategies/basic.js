@@ -16,29 +16,34 @@ const verifyPassword = function (user, password) {
 }
 
 
-const checkUserAndPass =  async (username, password, done) => {
+const checkUserAndPass =  (username, password, done) => {
    // look up the user and check the password if the user exists
   // call done() with either an error or the user, depending on outcome
+
+  console.log('try checking', username, password)
   let result
   try {
-    result = await users.findByUsername(username)
+    // result = await users.findByUsername(username)
+    console.log(result, 'check by username')
+    
+    if(result.length) {
+      const user = result[0]
+      if(verifyPassword(user, password)) {
+        console.log(`Successfully authentiated user ${username}`)
+        console.log(user)
+        return done(null, user)
+      } else  {
+        console.log(`Password inccorrect for user ${username} and ${password}`,user)
+        throw new Error(`Password inccorrect for user ${username} and ${password}`)
+      }
+    } else {
+      console.log(`No user found with username ${username}`)
+        throw new Error(`No user found with username ${username}`)
+    }
   } catch(error) {
     console.error(`Error during authentication for user ${username}`)
     return done(error)
-  }
-  if(result.length) {
-    const user = result[0]
-    if(verifyPassword(user, password)) {
-      console.log(`Successfully authentiated user ${username}`)
-      console.log(user)
-      return done(null, user)
-    } else  {
-      console.log(`Password inccorrect for user ${username} and ${password}`,user)
-    }
-  } else {
-    console.log(`No user found with username ${username}`)
-  }
-  return done(null, false) // username or password were incorrect
+  } // username or password were incorrect
 }
 
 const strategy = new BasicStrategy(checkUserAndPass)

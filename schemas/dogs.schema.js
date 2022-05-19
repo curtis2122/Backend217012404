@@ -49,6 +49,6 @@ module.exports =
       "minimum":0
     }
   },
-  "required":["name", "age", "sex", "shelterid", "staffid"]
+  "required":["name", "age", "sex","breed", "shelterid", "staffid"]
 //跟大細楷
 }

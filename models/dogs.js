@@ -1,5 +1,5 @@
 const db = require('../helper/database')
-//const dbMongo = require('../helper/mongodb')
+
 
 //get a single dog by its id 
 exports.getById = async function getById(id) {
@@ -18,7 +18,7 @@ exports.getAll = async function getAll(page, limit, order) {
   return data
 }
 
-//delete a new dog in the database
+//delete a dog in the database
 exports.delById = async function deleteById(id) {
   let query = "DELETE FROM dogs where id = ?"
   let values = [id]
@@ -27,7 +27,7 @@ exports.delById = async function deleteById(id) {
 }
 
 //waiting to test
-exports.searchArt = async function searchArt(filter, Svalue) {
+exports.searchDog = async function searchDog(filter, Svalue) {
   let values = [filter]
   let values2 = [Svalue]
   let query = "select * from dogs where ? LIKE ?"

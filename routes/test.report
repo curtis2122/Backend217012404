@@ -1,7 +1,0 @@
-
-/home/runner/COMBlog28032022/routes/dogs.js
-  20:28  error  'next' is defined but never used  no-unused-vars
-  62:31  error  'next' is defined but never used  no-unused-vars
-
-✖ 2 problems (2 errors, 0 warnings)
-
