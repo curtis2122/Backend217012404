@@ -1,0 +1,28 @@
+
+/home/runner/COMBlog28032022/models/dogs.js
+  18:40  error  'page' is defined but never used   no-unused-vars
+  18:46  error  'limit' is defined but never used  no-unused-vars
+  18:53  error  'order' is defined but never used  no-unused-vars
+  49:8   error  'i' is not defined                 no-undef
+  49:15  error  'i' is not defined                 no-undef
+  49:34  error  Unary operator '++' used           no-plusplus
+  49:34  error  'i' is not defined                 no-undef
+  66:8   error  'i' is not defined                 no-undef
+  66:15  error  'i' is not defined                 no-undef
+  66:34  error  Unary operator '++' used           no-plusplus
+  66:34  error  'i' is not defined                 no-undef
+
+/home/runner/COMBlog28032022/models/users.js
+  44:5   error  Assignment to property of function parameter 'user'  no-param-reassign
+  52:8   error  'i' is not defined                                   no-undef
+  52:15  error  'i' is not defined                                   no-undef
+  52:34  error  Unary operator '++' used                             no-plusplus
+  52:34  error  'i' is not defined                                   no-undef
+  67:3   error  Assignment to property of function parameter 'user'  no-param-reassign
+  73:8   error  'i' is not defined                                   no-undef
+  73:15  error  'i' is not defined                                   no-undef
+  73:34  error  Unary operator '++' used                             no-plusplus
+  73:34  error  'i' is not defined                                   no-undef
+
+✖ 21 problems (21 errors, 0 warnings)
+

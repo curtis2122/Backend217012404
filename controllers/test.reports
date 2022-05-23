@@ -1,0 +1,10 @@
+
+/home/runner/COMBlog28032022/controllers/auth.js
+  1:1  error  Parsing error: Unterminated comment
+
+/home/runner/COMBlog28032022/controllers/validation.js
+   9:27  error  Unexpected use of file extension "js" for "../schemas/dogs.schema.js"   import/extensions
+  10:28  error  Unexpected use of file extension "js" for "../schemas/users.schema.js"  import/extensions
+
+✖ 3 problems (3 errors, 0 warnings)
+
