@@ -1,12 +1,18 @@
+/**
+ * A module for run Database Query then end the connection.
+ * @author Wang Ka Li
+ * @param  query, insert, update and delete
+ */
+
 // Run SQL
 
 const {Sequelize, QueryTypes} = require('sequelize')
 const info = require('../config')
 
-/**
+/** jsdoc define Function 入出
   *  run_query
   *  @param query abc
-  *  @returns Integer 咩 type
+  *  @有咩returns Integer 咩 type
   */
 
 // define an async utility function to get a connection
@@ -77,9 +83,11 @@ exports.run_delete = async function run_delete(sql, values) {
   //  const sequelize = new Sequelize(`postgres://${info.config.user}:${info.config.password}@${info.config.host}/${info.config.database}`)
        const sequelize = new Sequelize(`postgres://${info.config.user}:${info.config.password}@${info.config.host}:${info.config.port}/${info.config.database}`)
     await sequelize.authenticate()
+    //20-5 await sequelize.authenticate({logging:false})
     let data = await sequelize.query(sql, {
       replacements: values,
       type: QueryTypes.DELETE
+      //logging:false
     })
         console.log('end')
     await sequelize.close()

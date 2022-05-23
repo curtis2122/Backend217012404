@@ -1,3 +1,9 @@
+/**
+ * A module for the models for Dogs CRUD.
+ * @author Wang Ka Li
+ * @module models/dogs
+ */
+
 const db = require('../helper/database')
 
 
@@ -20,10 +26,23 @@ exports.getAll = async function getAll(page, limit, order) {
 
 //delete a dog in the database
 exports.delById = async function deleteById(id) {
-  let query = "DELETE FROM dogs where id = ?"
+  //let query = "DELETE FROM dogs where id = ?"
+    let query = "DELETE FROM dogs where id = ?"
   let values = [id]
   let data = await db.run_delete(query, values)
   return data
+  
+  /*let query = "DELETE FROM dogs where id = ? RETURNING id'"
+  let values = [id]
+  try{
+  let data = await db.run_delete(query, values)
+ if(object.keys(data).length===0)
+   return {error:'no row deleted'}
+   return{ data}
+  }
+  catch(error){
+    return{error}
+  }*/
 }
 
 //waiting to test

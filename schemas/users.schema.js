@@ -59,42 +59,62 @@ module.exports =
   "additionalProperties": false
 },
 
-  { "id": "/userUpdate",
-    "title": "User Update",
-      "description": " user can update users info (excluded username).",
-        "type": "object",
-          "properties": {
+{
+  "id": "/userUpdate",
+  "title": "User Update",
+  "description": " user can update users info (excluded username).",
+  "type": "object",
+  "properties": {
     "firstname": {
       "description": "First name",
-        "type": "string"
+      "type": "string"
     },
     "lastname": {
       "description": "Last name",
-        "type": "string"
+      "type": "string"
     },
     "about": {
       "description": "Description of the user",
-        "type": "string"
+      "type": "string"
     },
     "email": {
       "description": "Unique email address",
-        "type": "string",
-          "format": "email"
+      "type": "string",
+      "format": "email"
     },
     "avatarurl": {
       "description": "URL of avatar image",
-        "type": "string",
-          "format": "uri"
+      "type": "string",
+      "format": "uri"
     },
     "password": {
       "description": "Password for registration",
-        "type": "string",
-          "minLength": 6
+      "type": "string",
+      "minLength": 6
     },
-    "role": {
-      "description": "Role allocated for the users",
-        "type": "string"
+    "shelterid": {
+      "description": "Staff User ID",
+      "type": "integer",
+      "minimum": 0
     }
+    /*  "role": {
+        "description": "Role allocated for the users",
+          "type": "string"
+      }*/
+  },
+  "additionalProperties": false
+},
+
+{
+  "id": "/userDelete",
+  "title": "User Delete",
+  "description": " delete users by ID.",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "description": "ID of the user",
+      "type": "integer"
+    } 
   },
   "additionalProperties": false
 }

@@ -4,13 +4,14 @@ info:
   title: Back End Demonstration API
   description: Canine Dog Shelter API
   contact:
-    name: curtis
+    name: Wang Ka Li
     email: 217012404@stu.vtc.edu.hk
   license:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
   - url: 'https://COMBlog28032022.curtiswang1.repl.co/'
+
     description: Development Server
 tags: //分類用
   - name: Users

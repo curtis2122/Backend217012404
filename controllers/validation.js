@@ -1,3 +1,10 @@
+/**
+ * A module for run JSON Schema base validation on request or response data.
+ * @author Wang Ka Li
+ * @module controllers/validation
+ * @see schemas/* for JSON Schema definition files
+ */
+
 const {Validator, ValidationError} = require('jsonschema')
 const dogSchema =  require('../schemas/dogs.schema.js')
 const userSchema =  require('../schemas/users.schema.js')

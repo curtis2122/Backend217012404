@@ -16,10 +16,10 @@ const app = new Koa()
   //}
 //}
 
-const specials = require('../../routes/special')   
-const dogs = require('../../routes/dogs')
+const specials = require('./../routes/special')   
+const dogs = require('./../routes/dogs')
 //const articles = require('../../routes/articles')
-const users = require('../../routes/users')
+const users = require('./../routes/users')
 app.use(specials.routes())
 app.use(dogs.routes())
 app.use(users.routes())
@@ -28,4 +28,4 @@ app.use(users.routes())
 //let port = process.env.PORT || 10888
 //app.listen(port)
 
-module.exports = app
+ module.exports = app

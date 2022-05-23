@@ -1,3 +1,9 @@
+/**
+ * A module for the permissions for Users.
+ * @author Wang Ka Li
+ * @module models/users
+ */
+
 const AccessControl = require('role-acl')
 const ac = new AccessControl()
 
@@ -46,17 +52,17 @@ ac.grant('admin').execute('read').on('user')
 ac.grant('admin').execute('read').on('employee')
 ac.grant('admin').execute('read').on('users')
 ac.grant('admin').execute('read').on('employees')
-ac.grant('admin').execute('update').on('user')
-ac.grant('admin').execute('update').on('employee')
+ac.grant('admin').execute('update').on('users')
+ac.grant('admin').execute('update').on('employees')
 /*
 ac.grant('admin').execute('update').on('users')
 ac.grant('admin').execute('update').on('employees')*/
 ac.grant('admin')
   //.condition({Fn: 'NOT_EQUALS',  args:{'requester':'$.owner'}})
-  .execute('delete').on('user')
+  .execute('delete').on('users')
 ac.grant('admin')
 //  .condition({Fn: 'NOT_EQUALS',  args:{'requester':'$.owner'}})
-  .execute('delete').on('employee')
+  .execute('delete').on('employees')
 
 //check premission
 
@@ -64,23 +70,17 @@ ac.grant('admin')
 
 exports.readAll = (requester) => ac.can(requester.role).execute('read').sync().on('users','employees')
 
-exports.userRead = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('read').sync().on('user')
+exports.Read = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('read').sync().on('users')
 
-exports.userUpdate = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('update').sync().on('user') 
+exports.Update = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('update').sync().on('users') 
 
-exports.userDelete = (requester, data) =>  ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('delete').sync().on('user')
-
-exports.empRead = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('read').sync().on('employee')
-
-exports.empUpdate = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('update').sync().on('employee') 
-
-exports.empDelete = (requester, data) =>  ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('delete').sync().on('employee')
-//owner:data.ID}).execute('delete').sync().on('employee','users')
+exports.Delete = (requester, data) =>  ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('delete').sync().on('users')
 
 /*
-exports.AdRead = (requester, data) => 
-  ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('read').sync().on('admin').console.log(requester).console.log(data)
+exports.Read = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('read').sync().on('users')
 
-exports.AdUpdate = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('update').sync().on('admin') 
+exports.Update = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('update').sync().on('users') 
 
-exports.AdDelete = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('delete').sync().on('admin')*/
+exports.Delete = (requester, data) =>  ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('delete').sync().on('users').console.log(requester)*/
+//owner:data.ID}).execute('delete').sync().on('employee','users')
+

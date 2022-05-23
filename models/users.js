@@ -1,3 +1,9 @@
+/**
+ * A module for the models for Users CRUD.
+ * @author Wang Ka Li
+ * @module models/users
+ */
+
 const db = require('../helper/database')
 //3-5
 const bcrypt = require('bcrypt');

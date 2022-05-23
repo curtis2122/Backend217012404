@@ -3,7 +3,7 @@ module.exports =
   "$schema":"http://json-schema.org/draft-04/schema#",
   "id":"/dog",
   "title":"Dog",
-  "description": "Dog in Website",
+  "description": "Register Dog in Website",
   "type": "object",
   "properties": {
     "title":{

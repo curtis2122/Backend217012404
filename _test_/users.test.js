@@ -2,7 +2,7 @@ const request = require('supertest')
 //const app = require('./common/index')
 const app = require('./app.test')
 
-/*
+
 let token;
 
 getauth((setauth) => {
@@ -14,7 +14,7 @@ getauth((setauth) => {
       console.log('the auth token is ', token);
       setauth();
     });
-});*/
+});
 
 const expected =  {
         "id": 3,
@@ -85,12 +85,11 @@ describe('Post new dog Test Case', () => {
 describe('try the PUT method of Dogs', () => {
   it('Update a dog info ', async () => {
     const req = await request(app.callback())
-      .put(`/api/v1/dogs/34`)
+      .put(`/api/v1/dogs/35`)
       // .put(`/api/v1/dogs/${dogID}`)
       .send({
         name: 'changeDogName',
-        age": '1',
-        sex: 'M'
+        sex: 'M',
       })
 //      .set('Authorization', token);
     expect(req.statusCode).toEqual(201);
@@ -103,7 +102,7 @@ describe('try the PUT method of Dogs', () => {
 describe('try the DELETE method of Dogs', () => {
   it('Testing to delete a dog', async () => {
     const req = await request(app.callback())
-      .delete(`/api/v1/dogs/36`)
+      .delete(`/api/v1/dogs/35`)
  //     .set('Authorization', token);
     expect(req.statusCode).toEqual(201);
   //  expect(res.type).toEqual("application/json")

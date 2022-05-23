@@ -7,6 +7,7 @@ const router = Router({ prefix: '/api/v1/users' })
 const bcrypt = require('bcrypt');
 const bodyParser = require('koa-bodyparser');
 const { validateUser } = require('../controllers/validation');
+//const passport = require('koa-passport');
 //const { validateUser, validateUserUpdate } = require('../controllers/validation');
 //org
 router.get('/', auth, getAll)
@@ -14,8 +15,10 @@ router.get('/', auth, getAll)
 router.post('/login', auth, login);
 router.post('/', bodyParser(), validateUser, createUser);
 router.get('/:id([0-9]{1,})', auth, getById);
-router.put('/:id([0-9]{1,})', auth, bodyParser(), validateUser, updateUser);
+router.put('/:id([0-9]{1,})', bodyParser(), validateUser, updateUser);
 router.del('/:id([0-9]{1,})', auth, deleteUser);
+
+//router.del('/:id([0-9]{1,})', passport.authenticate('basic', {session: false}), deleteUser);
 //router.get('/:id([0-9]{1,})/signUpCode', getUserRole)
 
 async function getAll(ctx) {
@@ -62,10 +65,14 @@ async function getById(ctx) {
   const result = await model.getById(id);
   if (result.length) {
     const data = result[0]
+    /*
     const userPermission = can.userRead(ctx.state.user, data);
-    const empPermission = can.empRead(ctx.state.user, data);
-
-
+    //const empPermission = can.empRead(ctx.state.user, data);
+const empPermission = can.Read(ctx.state.user, data);*/
+    const userPermission = can.readAll(ctx.state.user, data);
+    //const empPermission = can.empRead(ctx.state.user, data);
+const empPermission = can.readAll(ctx.state.user, data);
+    
     if (empPermission.granted) {
       ctx.body = empPermission.filter(data);
       ctx.res.body = "Success read by employee";
@@ -81,45 +88,48 @@ async function getById(ctx) {
 }
 // Function to update users account
 async function updateUser(ctx) {
+  
   const id = ctx.params.id;
-
+  //const id1 = ctx.params.id;
   let result = await model.getById(id);  // check if id is exists
   if (result.length) {
     let data = result[0];
     console.log("going to update", data);
-    const empPermission = can.empUpdate(ctx.state.user, data);
+    const empPermission = can.Update(ctx.state.user, data);
     const userPermission = can.userUpdate(ctx.state.user, data);
-
-    if (empPermission.granted) {
+    
+    if (empPermission.granted){
       const newData = empPermission.filter(ctx.request.body);
-
-      try {
-        result = await model.update(newData, id);
-        if (result.affectedRows) {
-          ctx.body = { ID: id, updated: true, link: ctx.request.path };
-          ctx.res.body = "Success Update by employee";
-          ctx.res.statusCode = 200;
-          console.log("Success Update by employee");
-          //      res.send{"update success"}
-        }
-      } catch (error) {
-        return error
+      
+      // overwrite and update fields with body data
+   //   Object.assign(newData, {ID: id});
+      try{
+      result = await model.update(newData, id);
+      if (result.affectedRows) {
+        ctx.body = {ID: id, updated: true, link: ctx.request.path};
+        ctx.res.body = "Success Update by employee";
+  ctx.res.statusCode = 200;
+  //      res.send{"update success"}
       }
-    } else if (userPermission.granted) {
+         } catch (error) {
+    return error
+  }
+    } else if (userPermission.granted){
       // exclude fields that should not be updated
       const newData = userPermission.filter(ctx.request.body);
-
-      try {
-        result = await model.update(newData, id);
-      } catch (error) {
-        return error
-      }
+      
+      // overwrite updatable fields with body data
+   //   Object.assign(newData, {ID: id});
+       try {
+      result = await model.update(newData, id);
+          } catch (error) {
+    return error
+  }
       if (result.affectedRows) {
         ctx.res.body = "Success Update by user";
-        ctx.res.statusCode = 200;
-        ctx.body = { ID: id, updated: true, link: ctx.request.path };
-        console.log("Success Update by user");
-
+  ctx.res.statusCode = 200;
+        ctx.body = {ID: id, updated: true, link: ctx.request.path};
+        
       }
     } else {
       ctx.status = 403;
@@ -128,8 +138,24 @@ async function updateUser(ctx) {
   }
 }
 
+
 // Function delete users account 
 async function deleteUser(ctx) {
+  console.log("ctx is ", ctx);
+//  const permission = can.Delete(ctx.state.user) 
+
+  const permission = can.readAll(ctx.state.user) 
+
+  //const permission = can.Delete(ctx.state.user)
+  if (!permission.granted) {
+    ctx.status = 403
+  } else {
+
+    const id = ctx.params.id
+    let result = await model.delById(id)
+    ctx.status = 201
+    ctx.body = result}
+  /*
   const id = ctx.params.id;
   let result = await model.getById(id);
   if (result.length) {
@@ -138,7 +164,7 @@ async function deleteUser(ctx) {
     console.log("goint to delete", data);
     //    console.log("user info", ctx.state.user.role);
     const empPermission = can.empDelete(ctx.state.user, data);
-    const userPermission = can.userDelete(ctx.state.user, data);
+  //  const userPermission = can.userDelete(ctx.state.user, data);
 
     if (empPermission.granted) {
       const result = await model.delById(id);
@@ -163,7 +189,7 @@ async function deleteUser(ctx) {
       ctx.status = 403;
       ctx.res.body = "No premission for deleted";
     }
-  }
+  }*/
 }
 
 // Function to find users role
