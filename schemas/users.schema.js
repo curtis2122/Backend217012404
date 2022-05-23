@@ -41,6 +41,10 @@ module.exports =
       "description": "Role allocated for the users",
       "type": "string"
     },
+    "link": {
+      "description": "Link of the users",
+      "type": "string"
+    },
     "shelterid": {
       "description": "Staff User ID",
       "type": "integer",

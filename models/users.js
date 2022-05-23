@@ -5,7 +5,7 @@
  */
 
 const db = require('../helper/database')
-//3-5
+
 const bcrypt = require('bcrypt');
 
 exports.findByUsername = async function getByUsername(username) {
@@ -14,13 +14,13 @@ exports.findByUsername = async function getByUsername(username) {
   const user = await db.run_query(query, values)
   return user
 }
-
+//get all user info 
 exports.getAll = async function getAll() {
   let query = "select * FROM users"
   let data = await db.run_query(query)
   return data
 }
-
+//get user info by user ID
 exports.getById = async function getById(id) {
   let query = "select * from users where id = ?"
   let values = [id]
@@ -45,8 +45,8 @@ exports.update = async function update(user, id) {
     user.password = hash;
   }
 
-  let keys = Object.keys(user)   // keys = ['title', ' description']
-  let values = Object.values(user) // values = ['xxx', 2222]
+  let keys = Object.keys(user)   
+  let values = Object.values(user) 
   let id1 = [id]
   keys = keys.join(',')
   let parm = ''
@@ -61,38 +61,20 @@ exports.update = async function update(user, id) {
   }
 
 
-  /*
-    const values = [user, user.ID];
-    const data = await db.run_update(query, values);
-    return data;
-  */
+  
 }
 
-/*
-exports.add = async function add(user) {
-  const data = await db.insert({ ...user })
-    .into('user')
-    .catch(console.error);
-  return data;
-};
-*/
 
-//test by curtis 25-4
-//create a new article in the database
+
+//create a new users in the database
 exports.add = async function add(user) {
-  /* e.g. 
-    article = {
-      title: 'xxx',
-      description: 2222
-    }
-  */
-  //3-5
+ 
   const password = user.password;
   const hash = bcrypt.hashSync(password, 10);
   user.password = hash;
 
-  let keys = Object.keys(user)   // keys = ['title', ' description']
-  let values = Object.values(user) // values = ['xxx', 2222]
+  let keys = Object.keys(user)   
+  let values = Object.values(user) 
   keys = keys.join(',')
   let parm = ''
   for (i = 0; i < values.length; i++) { parm += '?,' }
@@ -106,12 +88,3 @@ exports.add = async function add(user) {
   }
 }
 
-/*
-//find and check users employee code 
-//do it at frontend
-exports.findEmpSepCode = async function findEmpSepCode(empCode) {
-  const query = "SELECT name FROM roles WHERE empcode = ?;";
-  const data = await db.run_query(query, [empCode]);
-  return data;
-
-}*/

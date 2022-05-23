@@ -11,9 +11,5 @@ app.use(dogs.routes())
 app.use(users.routes())
 
 
-//let port = process.env.PORT || 10888
-//app.listen(port)
 
-//console.log('API is ready')
-//只係模擬出黎所以delete左d code
 module.exports = app

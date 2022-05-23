@@ -66,21 +66,16 @@ ac.grant('admin')
 
 //check premission
 
-//exports.readAll = (requester) => ac.can(requester.role).execute('read').sync().on('users')
 
-exports.readAll = (requester) => ac.can(requester.role).execute('read').sync().on('users','employees')
+exports.readAll = (requester) => ac.can(requester.role).execute('read').sync().on('users')
 
 exports.Read = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('read').sync().on('users')
+
+exports.Create = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('create').sync().on('users')
 
 exports.Update = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('update').sync().on('users') 
 
 exports.Delete = (requester, data) =>  ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('delete').sync().on('users')
 
-/*
-exports.Read = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('read').sync().on('users')
 
-exports.Update = (requester, data) => ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('update').sync().on('users') 
-
-exports.Delete = (requester, data) =>  ac.can(requester.role).context({requester:requester.ID, owner:data.ID}).execute('delete').sync().on('users').console.log(requester)*/
-//owner:data.ID}).execute('delete').sync().on('employee','users')
 

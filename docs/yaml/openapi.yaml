@@ -44,27 +44,27 @@ paths:
         Update dog by id.
       responses:
         '200':
-          description: View of an dog record
+          description: Update of an dog record
         '404':
           descirption: Dog was not found in the DB
     delete:
       tags:
         - Dogs
       description:
-        Delete article by id.
+        Delete Dogs by id.
       responses:
         '200':
-          description: View of an article record
+          description: Delete of an Dogs record
         '404':
           descirption: Dog was not found in the DB
     post:
       tags:
-        - Articles
+        - Dogs
       description:
-        create a new article
+        create a new Dogs
       requestBody:
-        description: A new article data
-        required: true //boday 一定要
+        description: A new Dogs data
+        required: true 
         content:
           application/json:
             schema:
@@ -72,3 +72,57 @@ paths:
       responses:
         '201':
           description: Create a new dog successfully
+paths:
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:  
+          type: integer
+        required: true
+        description: Numeric id of the user
+    get:
+      tags:
+        - Users
+      description:
+        Get user by id.
+      responses:
+        '200':
+          description: View of an users record
+        '404':
+          descirption: Dog was not found in the DB
+    put:
+      tags:
+        - Users
+      description:
+        Update user by id.
+      responses:
+        '200':
+          description: Update of an users record
+        '404':
+          descirption: User was not found in the DB
+    delete:
+      tags:
+        - Users
+      description:
+        Delete Users by id.
+      responses:
+        '200':
+          description: Delete of an Users record
+        '404':
+          descirption: User was not found in the DB
+    post:
+      tags:
+        - Users
+      description:
+        create a new Users
+      requestBody:
+        description: A new Users data
+        required: true 
+        content:
+          application/json:
+            schema:
+              $ref: ./users.json#/definitions/user
+      responses:
+        '201':
+          description: Create a new user successfully

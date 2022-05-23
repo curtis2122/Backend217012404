@@ -3,23 +3,20 @@ const can = require('../permissions/users')
 const model = require('../models/users')
 const auth = require('../controllers/auth')
 const router = Router({ prefix: '/api/v1/users' })
-//3-5
+
 const bcrypt = require('bcrypt');
 const bodyParser = require('koa-bodyparser');
 const { validateUser } = require('../controllers/validation');
-//const passport = require('koa-passport');
-//const { validateUser, validateUserUpdate } = require('../controllers/validation');
-//org
+
 router.get('/', auth, getAll)
-//3-5
-router.post('/login', auth, login);
+
+//router.post('/login', auth, login);
 router.post('/', bodyParser(), validateUser, createUser);
 router.get('/:id([0-9]{1,})', auth, getById);
-router.put('/:id([0-9]{1,})', bodyParser(), validateUser, updateUser);
+router.put('/:id([0-9]{1,})', auth, bodyParser(), validateUser, updateUser);
 router.del('/:id([0-9]{1,})', auth, deleteUser);
 
-//router.del('/:id([0-9]{1,})', passport.authenticate('basic', {session: false}), deleteUser);
-//router.get('/:id([0-9]{1,})/signUpCode', getUserRole)
+
 
 async function getAll(ctx) {
   const permission = can.readAll(ctx.state.user)
@@ -38,26 +35,31 @@ async function getAll(ctx) {
 
 
 async function createUser(ctx) {
-  const body = ctx.request.body
-  let result = await model.add(body)
-  if (result) {
-    ctx.status = 201
-    ctx.body = result
+  const permission = can.Create(ctx.state.user)
+  if (!permission.granted) {
+    ctx.status = 403
   } else {
-    ctx.status = 201
-    ctx.body = "{}"
+    const body = ctx.request.body
+    let result = await model.add(body)
+    if (result) {
+      ctx.status = 201
+      ctx.body = result
+    } else {
+      ctx.status = 201
+      ctx.body = "{}"
+    }
   }
 }
 
 // login function
-async function login(ctx) {
+/*async function login(ctx) {
   // return any details needed by the client
   const { ID, username, email, role } = ctx.state.user
   const links = {
-    //   self: `${ctx.protocol}s://${ctx.host}${prefix}/${ID}`
+   
   }
   ctx.body = { ID, username, email, role, links };
-}
+}*/
 
 // Function to get users account by ID
 async function getById(ctx) {
@@ -65,21 +67,12 @@ async function getById(ctx) {
   const result = await model.getById(id);
   if (result.length) {
     const data = result[0]
-    /*
-    const userPermission = can.userRead(ctx.state.user, data);
-    //const empPermission = can.empRead(ctx.state.user, data);
-const empPermission = can.Read(ctx.state.user, data);*/
-    const userPermission = can.readAll(ctx.state.user, data);
-    //const empPermission = can.empRead(ctx.state.user, data);
-const empPermission = can.readAll(ctx.state.user, data);
-    
-    if (empPermission.granted) {
-      ctx.body = empPermission.filter(data);
+   
+    const Permission = can.readAll(ctx.state.user, data);
+
+    if (Permission.granted) {
+      ctx.body = Permission.filter(data);
       ctx.res.body = "Success read by employee";
-      ctx.res.statusCode = 200;
-    } else if (userPermission.granted) {
-      ctx.body = userPermission.filter(data);
-      ctx.res.body = "Success read by user";
       ctx.res.statusCode = 200;
     } else {
       ctx.status = 403;
@@ -88,48 +81,30 @@ const empPermission = can.readAll(ctx.state.user, data);
 }
 // Function to update users account
 async function updateUser(ctx) {
-  
+
   const id = ctx.params.id;
-  //const id1 = ctx.params.id;
-  let result = await model.getById(id);  // check if id is exists
+ 
+  let result = await model.getById(id);  
   if (result.length) {
     let data = result[0];
     console.log("going to update", data);
-    const empPermission = can.Update(ctx.state.user, data);
-    const userPermission = can.userUpdate(ctx.state.user, data);
-    
-    if (empPermission.granted){
-      const newData = empPermission.filter(ctx.request.body);
-      
+    const Permission = can.Update(ctx.state.user, data);
+
+    if (Permission.granted) {
+      const newData = Permission.filter(ctx.request.body);
+
       // overwrite and update fields with body data
-   //   Object.assign(newData, {ID: id});
-      try{
-      result = await model.update(newData, id);
-      if (result.affectedRows) {
-        ctx.body = {ID: id, updated: true, link: ctx.request.path};
-        ctx.res.body = "Success Update by employee";
-  ctx.res.statusCode = 200;
-  //      res.send{"update success"}
-      }
-         } catch (error) {
-    return error
-  }
-    } else if (userPermission.granted){
-      // exclude fields that should not be updated
-      const newData = userPermission.filter(ctx.request.body);
-      
-      // overwrite updatable fields with body data
-   //   Object.assign(newData, {ID: id});
-       try {
-      result = await model.update(newData, id);
-          } catch (error) {
-    return error
-  }
-      if (result.affectedRows) {
-        ctx.res.body = "Success Update by user";
-  ctx.res.statusCode = 200;
-        ctx.body = {ID: id, updated: true, link: ctx.request.path};
-        
+      //   Object.assign(newData, {ID: id});
+      try {
+        result = await model.update(newData, id);
+        if (result.affectedRows) {
+          ctx.body = { ID: id, updated: true, link: ctx.request.path };
+          ctx.res.body = "Success Update by employee";
+          ctx.res.statusCode = 200;
+          //      res.send{"update success"}
+        }
+      } catch (error) {
+        return error
       }
     } else {
       ctx.status = 403;
@@ -142,11 +117,11 @@ async function updateUser(ctx) {
 // Function delete users account 
 async function deleteUser(ctx) {
   console.log("ctx is ", ctx);
-//  const permission = can.Delete(ctx.state.user) 
 
-  const permission = can.readAll(ctx.state.user) 
 
-  //const permission = can.Delete(ctx.state.user)
+  const permission = can.Delete(ctx.state.user)
+
+  
   if (!permission.granted) {
     ctx.status = 403
   } else {
@@ -154,51 +129,10 @@ async function deleteUser(ctx) {
     const id = ctx.params.id
     let result = await model.delById(id)
     ctx.status = 201
-    ctx.body = result}
-  /*
-  const id = ctx.params.id;
-  let result = await model.getById(id);
-  if (result.length) {
-    const data = result[0];
-    //     console.log("user info", ctx.state.user.role);
-    console.log("goint to delete", data);
-    //    console.log("user info", ctx.state.user.role);
-    const empPermission = can.empDelete(ctx.state.user, data);
-  //  const userPermission = can.userDelete(ctx.state.user, data);
-
-    if (empPermission.granted) {
-      const result = await model.delById(id);
-      if (result) {
-        console.log("emp deleted", empPermission);
-        ctx.body = { ID: id, deleted: true }
-
-        ctx.res.body = "Success deleted by employee";
-
-        ctx.res.statusCode = 200;
-      }
-    } else if (userPermission.granted) {
-      const result = await model.delById(id);
-      if (result) {
-        console.log("user deleted", userPermission);
-        ctx.body = { ID: id, deleted: true }
-
-        ctx.res.body = "Success deleted by user";
-        ctx.res.statusCode = 200;
-      }
-    } else {
-      ctx.status = 403;
-      ctx.res.body = "No premission for deleted";
-    }
-  }*/
-}
-
-// Function to find users role
-/*async function getUserRole(ctx) {
-  const id = ctx.params.id;
-  let result = await model.findEmpCode(id);
-  if (result.length) {
-    ctx.body = result;
+    ctx.body = result
+    ctx.body = { ID: id, deleted: true };
   }
 }
-*/
+
+
 module.exports = router

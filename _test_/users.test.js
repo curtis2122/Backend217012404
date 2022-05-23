@@ -3,75 +3,66 @@ const request = require('supertest')
 const app = require('./app.test')
 
 
-let token;
 
-getauth((setauth) => {
-  const req = request(app.callback())
-    .post('/api/v1/users/login')
-    .auth('candy45', 'test1234')
-    .end((err, req) => {
-      token = req.body.token; 
-      console.log('the auth token is ', token);
-      setauth();
-    });
-});
 
 const expected =  {
-        "id": 3,
-        "title": null,
-        "name": "Bulldogs girl",
-        "age": 1,
-        "sex": "F",
-        "breed": "Bulldogs",
-        "datecreated": "2022-04-25T13:35:08.363Z",
-        "datemodified": "2022-04-25T13:35:08.363Z",
-        "imageurl": "https://images.squarespace-cdn.com/content/v1/59aeff50d482e950a6559590/1504738568286-7JA33CN9R6597FQW21YQ/bulldogstandards.jpg",
-        "description": null,
-        "shelterid": 1,
-        "status": null,
-        "staffid": 1
+        "id": 1,
+        "firstname": "amy",
+        "lastname": "lau",
+        "username": "amy",
+        "about": null,
+        "dateregistered": "2022-04-25T13:37:01.091Z",
+        "password": "$2b$10$TX8g.pEz6zmDTZRuIPhhheehWIPJcFqkMGZfq8a3wY4Z7Nc1UZMl.",
+        "passwordhints": "aa12345",
+        "email": "amy@charity.com",
+        "avatarurl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Fiona_Fung.JPG/640px-Fiona_Fung.JPG\r\n",
+        "code": null,
+        "role": "admin",
+        "link": null,
+        "shelterid": 1
     }
+    
 
-describe('Dogs Testing Cases', () => {
+describe('Users Testing Cases', () => {
   //async function call
   //case 1
   it('Check the status code is correct',async()=>{
     const res=await request(app.callback())
-    .get('/api/v1/dogs')
+    .get('/api/v1/users')
         .send({})
-
+ .auth('candy45', 'test123')
     expect(res.statusCode).toEqual(200)
   })
-  //case2
-  //xit 即係暫時skip, 例如未寫完
-  //xit('Return all dogs record', async(),=> {
-  it('Return id dogs record', async()=> {
+  
+ 
+  it('Return id users record', async()=> {
     const res = await request(app.callback())
-      //用post / put 都要改
-      .get('/api/v1/dogs/3')
-      //header / body 係呢到send 
+      
+      .get('/api/v1/users/1')
+    
       .send({})
-    //tobe都得一定要=, 有d 就咁試status code
+     .auth('candy45', 'test123')
+   
     expect(res.statusCode).toEqual(200)
     expect(res.type).toEqual("application/json")
-    //toContainEqual 即係都會包以上database既data 
+  
 //    expect(res.body).toContainEqual(expected)
 })
 })
 
 
-describe('Post new dog Test Case', () => {
-  it('should be create a new dog', async () => {
+describe('Post new users Test Case', () => {
+  xit('should be create a new users', async () => {
     const res = await request(app.callback())
-      .post('/api/v1/dogs')
+      .post('/api/v1/users')
       .send({
-        name: 'dogs12',
-        age: '1', 
-        sex: 'M',
-        breed:'Bulldogs',
-        shelterid: '1',
-        staffid: '1'
+        username: 'testcase',
+        password: 'test',
+        email: 'testamy@charity.com',
+        role: 'admin',
+        shelterid: '1'
       })
+     .auth('candy45', 'test123')
     expect(res.statusCode).toEqual(201)
     expect(res.type).toEqual("application/json")
    // expect(res.body).toContainEqual(expected)
@@ -82,16 +73,17 @@ describe('Post new dog Test Case', () => {
 
 
 
-describe('try the PUT method of Dogs', () => {
-  it('Update a dog info ', async () => {
+describe('try the PUT method of Users', () => {
+  xit('Update a user info ', async () => {
     const req = await request(app.callback())
-      .put(`/api/v1/dogs/35`)
-      // .put(`/api/v1/dogs/${dogID}`)
+      .put(`/api/v1/users/53`)
+      // .put(`/api/v1/users/${dogID}`)
       .send({
-        name: 'changeDogName',
-        sex: 'M',
+        firstname: 'JasonAdmintest',
+        shelterid: '2'
       })
-//      .set('Authorization', token);
+     .auth('candy45', 'test123')
+
     expect(req.statusCode).toEqual(201);
   //  expect(res.type).toEqual("application/json")
     expect(req.body).toHaveProperty('updated', true);
@@ -99,11 +91,11 @@ describe('try the PUT method of Dogs', () => {
 });
 
 
-describe('try the DELETE method of Dogs', () => {
-  it('Testing to delete a dog', async () => {
+describe('try the DELETE method of Users', () => {
+  it('Testing to delete a user', async () => {
     const req = await request(app.callback())
-      .delete(`/api/v1/dogs/35`)
- //     .set('Authorization', token);
+      .delete(`/api/v1/users/56`)
+    .auth('candy45', 'test123')
     expect(req.statusCode).toEqual(201);
   //  expect(res.type).toEqual("application/json")
     expect(req.body).toHaveProperty('deleted', true);

@@ -9,10 +9,10 @@
 const {Sequelize, QueryTypes} = require('sequelize')
 const info = require('../config')
 
-/** jsdoc define Function 入出
+/** 
   *  run_query
   *  @param query abc
-  *  @有咩returns Integer 咩 type
+  *  @returns Integer
   */
 
 // define an async utility function to get a connection

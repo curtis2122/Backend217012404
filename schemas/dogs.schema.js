@@ -6,10 +6,10 @@ module.exports =
   "description": "Register Dog in Website",
   "type": "object",
   "properties": {
-    "title":{
-      "description":"Main Title",
+    /*"title":{
+      "description":"Title",
       "type": "string"
-    },
+    },*/
     "name":{
       "description":"Body",
       "type": "string"
@@ -35,7 +35,7 @@ module.exports =
       "type": "string"
     },
     "shelterid":{
-      "description":"Staff User ID",
+      "description":"Shelter User ID",
       "type": "integer",
       "minimum":0
     },    
@@ -49,6 +49,68 @@ module.exports =
       "minimum":0
     }
   },
-  "required":["name", "age", "sex","breed", "shelterid", "staffid"]
-//跟大細楷
+  "required":["name", "age", "sex","breed", "shelterid", "staffid"],
+  "additionalProperties": false
+
+},
+{
+   "id":"/dogUpdate",
+  "title":"Dog Update",
+  "description": "Update Dog in Website",
+  "type": "object",
+  "properties": {
+   
+    "name":{
+      "description":"Body",
+      "type": "string"
+    },
+    "age":{
+      "description":"Age of the dog?",
+      "type": "integer"
+    },
+    "sex": {
+      "description": "What is sex of the dog?",
+      "type": "string"
+    },
+    "breed": {
+      "description": "What is the breed of the dog?",
+      "type": "string"
+    },
+    "imageURL":{
+      "description":"Image URL",
+      "type": "uri"
+    },
+    "description":{
+      "description":"(Option) Description",
+      "type": "string"
+    },
+    "shelterid":{
+      "description":"shelter ID",
+      "type": "integer",
+      "minimum":0
+    },    
+   
+    "staffid":{
+      "description":"Staff User ID",
+      "type": "integer",
+      "minimum":0
+    }
+  },
+  "required":["name", "age", "sex","breed", "shelterid", "staffid"],
+  "additionalProperties": false
+
+},
+
+{
+  "id": "/dogDelete",
+  "title": "Dog Delete",
+  "description": " delete dogs by ID.",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "description": "ID of the dog",
+      "type": "integer"
+    } 
+  },
+  "additionalProperties": false
 }

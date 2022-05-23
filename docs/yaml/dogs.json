@@ -4,11 +4,11 @@
   "dog": {
   "id":"/dog",
   "title":"Dog",
-  "description": "Dog in Website",
+  "description": "Register Dog in Website",
   "type": "object",
   "properties": {
     "title":{
-      "description":"Main Title",
+      "description":"Title",
       "type": "string"
     },
     "name":{
@@ -36,7 +36,7 @@
       "type": "string"
     },
     "shelterid":{
-      "description":"Staff User ID",
+      "description":"Shelter User ID",
       "type": "integer"
       "minimum":0
     }    
@@ -50,7 +50,6 @@
       "minimum":0
     }
   },
-  "required":["name", "age", "sex", "shelterid", "staffid"]
+  "required":["name", "age", "sex","breed", "shelterid", "staffid"]
     }
   }
-}

@@ -2,19 +2,6 @@ const request = require('supertest')
 //const app = require('./common/index')
 const app = require('./app.test')
 
-/*
-let token;
-
-getauth((setauth) => {
-  const req = request(app.callback())
-    .post('/api/v1/users/login')
-    .auth('candy45', 'test1234')
-    .end((err, req) => {
-      token = req.body.token; 
-      console.log('the auth token is ', token);
-      setauth();
-    });
-});*/
 
 const expected =  {
         "id": 3,
@@ -34,38 +21,36 @@ const expected =  {
 
 describe('Dogs Testing Cases', () => {
   //async function call
-  //case 1
-  it('Check the status code is correct',async()=>{
+
+  it('Check the status code is correct for get all dog',async()=>{
     const res=await request(app.callback())
     .get('/api/v1/dogs')
         .send({})
 
     expect(res.statusCode).toEqual(200)
   })
-  //case2
-  //xit 即係暫時skip, 例如未寫完
-  //xit('Return all dogs record', async(),=> {
+
   it('Return id dogs record', async()=> {
     const res = await request(app.callback())
-      //用post / put 都要改
+   
       .get('/api/v1/dogs/3')
-      //header / body 係呢到send 
+    
       .send({})
-    //tobe都得一定要=, 有d 就咁試status code
+  
     expect(res.statusCode).toEqual(200)
     expect(res.type).toEqual("application/json")
-    //toContainEqual 即係都會包以上database既data 
+  
 //    expect(res.body).toContainEqual(expected)
 })
 })
 
 
 describe('Post new dog Test Case', () => {
-  it('should be create a new dog', async () => {
+  xit('check status code for create a new dog', async () => {
     const res = await request(app.callback())
       .post('/api/v1/dogs')
       .send({
-        name: 'dogs12',
+        name: 'dogs122',
         age: '1', 
         sex: 'M',
         breed:'Bulldogs',
@@ -84,29 +69,30 @@ describe('Post new dog Test Case', () => {
 
 describe('try the PUT method of Dogs', () => {
   it('Update a dog info ', async () => {
-    const req = await request(app.callback())
+    const res = await request(app.callback())
       .put(`/api/v1/dogs/34`)
       // .put(`/api/v1/dogs/${dogID}`)
       .send({
-        name: 'changeDogName',
-        age": '1',
+        name: 'changeDogName2',
+        age: '2',
         sex: 'M'
       })
-//      .set('Authorization', token);
-    expect(req.statusCode).toEqual(201);
+
+    expect(res.statusCode).toEqual(201);
   //  expect(res.type).toEqual("application/json")
-    expect(req.body).toHaveProperty('updated', true);
+    expect(res.body).toHaveProperty('updated', true);
   });
 });
 
 
 describe('try the DELETE method of Dogs', () => {
   it('Testing to delete a dog', async () => {
-    const req = await request(app.callback())
-      .delete(`/api/v1/dogs/36`)
- //     .set('Authorization', token);
-    expect(req.statusCode).toEqual(201);
+    const res = await request(app.callback())
+      .delete(`/api/v1/dogs/35`)
+     .auth('candy45', 'test123')
+  
+    expect(res.statusCode).toEqual(201);
   //  expect(res.type).toEqual("application/json")
-    expect(req.body).toHaveProperty('deleted', true);
+    expect(res.body).toHaveProperty('deleted', true);
   });
 });
